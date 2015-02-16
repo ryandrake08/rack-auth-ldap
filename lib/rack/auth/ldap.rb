@@ -79,7 +79,7 @@ module Rack
       # @param [hash<Symbol>] config_options the configurable options
       # @option config_options [Symbol] :file the path to the YAML configuration file  
       def initialize(app, config_options = {})
-        super(app)
+        super(app, config_options)
         @config = Config.new(config_options)
       end
 
