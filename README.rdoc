@@ -71,3 +71,10 @@ if you want to deactivate root authentication before user binding :
 
    development:
      <<: *ldap_defaults
+
+=== Group Filter
+
+You may optionally filter also by group membership by adding to ldap.yml:
+
+     groupdn: ou=groups,dc=domain,dc=tld
+     groupmember_ldap_attribute: memberUid

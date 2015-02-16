@@ -51,6 +51,7 @@ module Rack
           :port => 389,
           :scope => :subtree,
           :username_ldap_attribute => 'uid',
+          :groupmember_ldap_attribute => 'memberUid',
         }
       end
 
@@ -109,7 +110,7 @@ module Rack
       # do the LDAP connection => search => bind with the credentials get into request headers 
       # @param [Rack::Auth::Ldap::Request] auth a LDAP authenticator object
       # @return [TrueClass,FalseClass] Boolean true/false
-      def valid?(auth)        
+      def valid?(auth)
         dn = ''
         conn = LDAP::Conn.new(@config.hostname, @config.port)
         conn.set_option( LDAP::LDAP_OPT_PROTOCOL_VERSION, 3 )
@@ -119,6 +120,14 @@ module Rack
           dn = entry.dn
         end
         return false if dn.empty?
+        if @config.groupdn
+          filter = "(#{@config.groupmember_ldap_attribute}=#{auth.username})"
+          begin
+            return false if conn.search2(@config.groupdn, ldap_scope(@config.scope), filter).empty?
+          rescue LDAP::ResultError
+            return false
+          end
+        end
         conn.unbind
         conn = LDAP::Conn.new(@config.hostname, @config.port)
         conn.set_option( LDAP::LDAP_OPT_PROTOCOL_VERSION, 3 )
