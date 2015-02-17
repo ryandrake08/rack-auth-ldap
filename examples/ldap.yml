@@ -5,7 +5,7 @@ production: &ldap_defaults
   passdn: secret
   auth: true
   port: 389
-  username_ldap_attribut: uid
+  username_ldap_attribute: uid
 
 
 test:

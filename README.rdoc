@@ -46,7 +46,7 @@ Create an ldap.yml configuration file with :
      passdn: secret
      auth: true
      port: 389
-     username_ldap_attribut: uid
+     username_ldap_attribute: uid
 
 
    test:
@@ -63,7 +63,7 @@ if you want to deactivate root authentication before user binding :
      basedn: ou=groups,dc=domain,dc=tld
      auth: false
      port: 389
-     username_ldap_attribut: uid
+     username_ldap_attribute: uid
 
 
    test:
